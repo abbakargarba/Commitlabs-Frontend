@@ -3,6 +3,7 @@ import CommitmentJourney from '@/components/CommitmentJourney/CommitmentJourney'
 import ImpactSection from '@/components/ImpactSection'
 import { HeroSection } from "@/components/landing-page/sections/HeroSection";
 import { Navigation } from "@/components/landing-page/Navigation";
+import { Footer } from "@/components/landing-page/Footer";
 import React from "react";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <ImpactSection />
       <SolutionSection />
       </main>
+      <Footer />
     </div>
 
   )
