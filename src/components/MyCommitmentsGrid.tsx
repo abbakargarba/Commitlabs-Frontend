@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import styles from './MyCommitmentsGrid.module.css';
 import MyCommitmentCard from './MyCommitmentCard';
 import { Commitment } from '@/types/commitment';
 import Link from 'next/link';
@@ -20,13 +19,14 @@ const MyCommitmentsGrid: React.FC<MyCommitmentsGridProps> = ({
   onEarlyExit,
 }) => {
   return (
-    <div className={styles.gridWrapper}>
-      <div className={styles.countLabel}>
-       <span className={styles.countNum}>{commitments.length}</span> commitments found
+    <div className="flex flex-col gap-4">
+      <div className="text-[14px] text-[#94A3B8]">
+        <span className="text-[16px] font-semibold text-white">{commitments.length}</span>{' '}
+        commitments found
       </div>
       
       {commitments.length > 0 ? (
-        <div className={styles.grid}>
+        <div className="grid grid-cols-3 gap-6 max-[1200px]:grid-cols-2 max-[768px]:grid-cols-1">
           {commitments.map((commitment) => (
             <MyCommitmentCard 
               key={commitment.id} 
@@ -38,9 +38,9 @@ const MyCommitmentsGrid: React.FC<MyCommitmentsGridProps> = ({
           ))}
         </div>
       ) : (
-        <div className={styles.emptyState}>
+        <div className="flex flex-col items-center justify-center gap-4 py-[60px] text-[#94A3B8]">
           <p>No commitments found matching your filters.</p>
-          <Link href="/create" className={styles.createLink}>
+          <Link href="/create" className="font-semibold text-[#0FF0FC] transition-all duration-200 ease-[ease] border-b border-transparent hover:border-[#0FF0FC]">
             Create your first commitment
           </Link>
         </div>
