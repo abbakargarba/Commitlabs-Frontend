@@ -1,4 +1,8 @@
-/* Page-specific styles are mostly handled via Tailwind for layout and responsiveness. */
+.main {
+  min-height: 100vh;
+}
+
+/* Constrains only the grid section; header stays full-width */
 .container {
   display: none; /* Deprecated in favor of Tailwind classes in page.tsx */
 }

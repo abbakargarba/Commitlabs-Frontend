@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { MarketplaceHeader } from '@/components/MarketplaceHeader/MarketplaceHeader'
 import { MarketplaceGrid } from '@/components/MarketplaceGrid'
 import { MarketplaceResultsLayout } from '@/components/MarketplaceResultsLayout'
 import MarketplaceFilters from '@/components/MarketplaceFilter/MarketplaceFilters'
@@ -316,6 +317,7 @@ function MarketplaceListView({ items }: { items: any[] }) {
 }
 
 export default function Marketplace() {
+  const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [currentPage, setCurrentPage] = useState(1)
   const [searchQuery, setSearchQuery] = useState('')
