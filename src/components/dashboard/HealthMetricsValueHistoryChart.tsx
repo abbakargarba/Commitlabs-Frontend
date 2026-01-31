@@ -12,8 +12,11 @@ import {
     Legend,
 } from 'recharts';
 
+import VolatilityExposureMeter from '../VolatilityExposureMeter/VolatilityExposureMeter';
+
 interface HealthMetricsValueHistoryChartProps {
     data: Array<{ date: string; currentValue: number; initialAmount?: number }>;
+    volatilityPercent?: number;
 }
 
 interface TooltipPayload {
@@ -51,85 +54,95 @@ const CustomTooltip = ({ active, payload, label }: TooltipPayload) => {
 
 export const HealthMetricsValueHistoryChart: React.FC<HealthMetricsValueHistoryChartProps> = ({
     data,
+    volatilityPercent,
 }) => {
     return (
-        <div className="w-full h-full min-h-[350px] bg-[#111] rounded-xl p-4 sm:p-6 border border-[#222] shadow-sm">
-            <ResponsiveContainer width="100%" height={300}>
-                <LineChart
-                    data={data}
-                    margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
-                >
-                    <CartesianGrid
-                        strokeDasharray="3 3"
-                        stroke="#222"
-                        vertical={false}
-                    />
-                    <XAxis
-                        dataKey="date"
-                        stroke="#666"
-                        tick={{ fill: '#666', fontSize: 12 }}
-                        tickLine={false}
-                        axisLine={false}
-                        dy={10}
-                    />
-                    <YAxis
-                        stroke="#666"
-                        tick={{ fill: '#666', fontSize: 12 }}
-                        tickLine={false}
-                        axisLine={false}
-                        tickFormatter={(value) => `${value.toLocaleString()}`}
-                    />
-                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#333' }} />
-                    <Legend
-                        verticalAlign="bottom"
-                        height={36}
-                        content={() => (
-                            <div className="flex items-center justify-center gap-6 mt-6">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 rounded-full bg-[#0ff0fc] border border-[#0ff0fc]" />
-                                    <span className="text-[#99a1af] text-sm">
-                                        Current Value
-                                    </span>
+        <>
+            <div className="w-full h-full min-h-[350px] bg-[#111] rounded-xl p-4 sm:p-6 border border-[#222] shadow-sm">
+                <ResponsiveContainer width="100%" height={300}>
+                    <LineChart
+                        data={data}
+                        margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
+                    >
+                        <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="#333"
+                            vertical={false}
+                        />
+                        <XAxis
+                            dataKey="date"
+                            stroke="#666"
+                            tick={{ fill: '#666', fontSize: 12 }}
+                            tickLine={false}
+                            axisLine={false}
+                            dy={10}
+                        />
+                        <YAxis
+                            stroke="#666"
+                            tick={{ fill: '#666', fontSize: 12 }}
+                            tickLine={false}
+                            axisLine={false}
+                            tickFormatter={(value) => `${value.toLocaleString()}`}
+                        />
+                        <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#333' }} />
+                        <Legend
+                            verticalAlign="bottom"
+                            height={36}
+                            content={() => (
+                                <div className="flex items-center justify-center gap-6 mt-4">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-3 h-3 rounded-full bg-[#0ff0fc]" />
+                                        <span className="text-[#0ff0fc] text-sm">
+                                            Current Value
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-3 h-3 rounded-full border-2 border-[#666] border-dashed" />
+                                        <span className="text-[#666] text-sm">
+                                            Initial Amount
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-3 h-3 rounded-full border border-dashed border-[#666] bg-transparent" />
-                                    <span className="text-[#666] text-sm">
-                                        Initial Amount
-                                    </span>
-                                </div>
-                            </div>
-                        )}
-                    />
-                    
-                    {/* Optional Initial Amount Line (Dashed) */}
-                    <Line
-                        type="monotone"
-                        dataKey="initialAmount"
-                        name="Initial Amount"
-                        stroke="#444"
-                        strokeDasharray="5 5"
-                        strokeWidth={1}
-                        dot={false}
-                        activeDot={false}
-                    />
-
-                    {/* Current Value Line (Teal) */}
-                    <Line
-                        type="monotone"
-                        dataKey="currentValue"
-                        name="Current Value"
-                        stroke="#0ff0fc"
-                        strokeWidth={2}
-                        dot={{ r: 4, fill: '#111', stroke: '#0ff0fc', strokeWidth: 2 }}
-                        activeDot={{ r: 6, fill: '#0ff0fc', stroke: '#fff', strokeWidth: 1 }}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
-            <div className="mt-4 pt-4 border-t border-[#222]">
-                <p className="text-[#99a1af] text-sm leading-relaxed text-center sm:text-left">
-                    Track how your commitment value has changed over time compared to the initial amount.
-                </p>
+                            )}
+                        />
+                        {/* Initial Amount Line (Dashed) */}
+                        <Line
+                            type="monotone"
+                            dataKey="initialAmount"
+                            name="Initial Amount"
+                            stroke="#666"
+                            strokeWidth={2}
+                            strokeDasharray="5 5"
+                            dot={false}
+                            activeDot={false}
+                        />
+                        {/* Current Value Line (Teal) */}
+                        <Line
+                            type="monotone"
+                            dataKey="currentValue"
+                            name="Current Value"
+                            stroke="#0ff0fc"
+                            strokeWidth={2}
+                            dot={{ r: 4, fill: '#0ff0fc', stroke: '#111', strokeWidth: 2 }}
+                            activeDot={{ r: 6, fill: '#0ff0fc', stroke: '#111', strokeWidth: 2 }}
+                        />
+                    </LineChart>
+                </ResponsiveContainer>
+                <div className="mt-4 pt-4 border-t border-[#222]">
+                    <p className="text-[#99a1af] text-sm leading-relaxed text-center sm:text-left">
+                        Track how your commitment value has changed over time compared to the initial amount.
+                    </p>
+                </div>
             </div>
-        </div>
+
+            {volatilityPercent !== undefined && (
+                <div className="mt-4">
+                    <VolatilityExposureMeter
+                        valuePercent={volatilityPercent}
+                        description="Current exposure to volatile assets based on allocation and market conditions."
+                    />
+                </div>
+            )}
+        </>
     );
 };

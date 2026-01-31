@@ -8,15 +8,22 @@ import React from 'react'
 import ImpactSection from '@/components/ImpactSection'
 import Footer from '@/components/landing-page/Footer'
 
+import { ExperienceSection } from "@/components/landing-page/sections/ExperienceSection";
+import { Navigation } from "@/components/landing-page/Navigation";
+
 export default function Home() {
   return (
-    <div className="min-h-screen w-full bg-[#0a0a0a] flex flex-col items-center justify-center overflow-hidden">
-      <HeroSection />
-      <ProblemSection />
-      <CommitmentJourney />
-      <ImpactSection />
-      <SolutionSection />
+    <div className="min-h-screen w-full bg-[#0a0a0a] overflow-hidden">
+      <Navigation />
+      <main id="main-content">
+        <HeroSection />
+        <ProblemSection />
+        <CommitmentJourney />
+        <ImpactSection />
+        <SolutionSection />
+        <ExperienceSection />
+      </main>
       <Footer />
     </div>
-  )
+  );
 }
