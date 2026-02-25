@@ -1,23 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { checkRateLimit } from '@/lib/backend/rateLimit';
 import { logCommitmentCreated } from '@/lib/backend/logger';
 
-export async function POST(req: NextRequest) {
-    // Get identifying key (IP address or user ID if authenticated)
-    const ip = req.ip || req.headers.get('x-forwarded-for') || 'anonymous';
+export const POST = withApiHandler(async (req: NextRequest) => {
+    const ip = req.ip ?? req.headers.get('x-forwarded-for') ?? 'anonymous';
 
-    // Apply rate limiting check
     const isAllowed = await checkRateLimit(ip, 'api/commitments');
-
     if (!isAllowed) {
-        return NextResponse.json(
-            { error: 'Too many requests' },
-            { status: 429 }
-        );
+        throw new TooManyRequestsError();
     }
 
-    // TODO: Implement commitment creation logic
-    // e.g., interact with smart contract, store in database, etc.
+    // TODO: validate request body, interact with Soroban smart contract,
+    //       store commitment record in database, mint NFT, etc.
 
     // analytics hook
     try {
